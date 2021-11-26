@@ -5,7 +5,7 @@ using UnityEngine;
 public class MessageBubble : MonoBehaviour
 {
     [SerializeField]
-    private GameObject camera;
+    private GameObject mainCamera;
     [SerializeField]
     private float distance = 0f;
     [SerializeField]
@@ -20,29 +20,37 @@ public class MessageBubble : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        camera = GameObject.FindGameObjectWithTag("MainCamera");
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         choiceUI = GameObject.FindGameObjectWithTag("ChoiceUI");
         optionsUI = choiceUI.transform.Find("Options");
-        bubbleMessage = GameObject.FindGameObjectWithTag("BubbleMessage");
+        bubbleMessage = transform.Find("SpeedMessage").gameObject;
         contentBody = bubbleMessage.transform.Find("Content");
+        bubbleMessage.transform.Find("Content").gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
-    void LateUpdate()
-    {
-        distance = Vector3.Distance(transform.position, camera.transform.position);
-        
+	private void Update()
+	{
+        distance = Vector3.Distance(transform.position, mainCamera.transform.position);
+        bubbleMessage.transform.LookAt(mainCamera.transform.position);
         if (distance <= 5)
 		{
-            contentBody.gameObject.SetActive(true);
-            optionsUI.gameObject.SetActive(true);
-            transform.LookAt(camera.transform.position);
+            transform.LookAt(GameObject.FindGameObjectWithTag("Player").transform);
         }
-        else
-		{
+    }
+
+	private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player") 
+        {
+            contentBody.gameObject.SetActive(true);        
+        }
+    }
+
+	private void OnTriggerExit(Collider other)
+	{
+        if (other.tag == "Player")
+        {
             contentBody.gameObject.SetActive(false);
-            optionsUI.gameObject.SetActive(false);
-            transform.LookAt(camera.transform.position);
         }
     }
 }

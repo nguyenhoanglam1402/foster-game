@@ -23,8 +23,6 @@ public class PlayerController : MonoBehaviour
         animatorController = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         animatorController.SetBool("Grounded", true);
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame

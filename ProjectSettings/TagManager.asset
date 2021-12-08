@@ -11,6 +11,8 @@ TagManager:
   - NPC
   - Endpoint
   - Choice
+  - MessagePanel
+  - Message
   layers:
   - Default
   - TransparentFX
@@ -19,7 +21,7 @@ TagManager:
   - Water
   - UI
   - 
-  - 
+  - Ground
   - PostProcessing
   - Not in Reflection
   - 
